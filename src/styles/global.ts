@@ -37,6 +37,17 @@ export const GLobalStyle = createGlobalStyle`
         -webkit-font-smoothing: antialiased; //torna as fontes mais detalhadas
     }
 
+    //input, textarea e button tem suas proprias fontes, por isso sobreescrever todas
+    body, input, textarea, button { 
+        //se não for possivel carregar o poppins, use uma font sans-serif qualquer (arial, por exemplo).
+        font-family: 'Poppins', sans-serif;
+        font-weight: 400;
+    }
+
+    h1, h2, h3, h4, h5, h6, strong {
+        font-weight: 600;
+    }
+
     button {
         cursor: pointer;
     }
