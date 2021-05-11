@@ -1,12 +1,11 @@
 import incomeIgm from "../../assets/income.svg";
 import outcomeIgm from "../../assets/outcome.svg";
 import totalImg from "../../assets/total.svg";
-import { TransactionsContext } from "../../TransactionsContext";
 import { Container } from "../Summary/style";
-import { useContext } from "react";
+import { useTransactions } from "../../hooks/useTransactions";
 
 export function Summary() {
-  const { transactions } = useContext(TransactionsContext);
+  const { transactions } = useTransactions();
 
   const summary = transactions.reduce((acc, transaction) => {
     if (transaction.type === "deposit") {
