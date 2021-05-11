@@ -4,8 +4,7 @@ import { GLobalStyle } from "./styles/global";
 import Modal from "react-modal";
 import { useState } from "react";
 import { NewTransactionModal } from "./components/NewTransactionModal";
-
-
+import { TransactionsProvider } from "./TransactionsContext";
 
 // Acessibilidade.
 // Explicita que o modal está por cima da div root
@@ -24,7 +23,7 @@ export function App() {
   }
 
   return (
-    <>
+    <TransactionsProvider>
       {/* header é algo que vai ser repetido em todas as telas criadas */}
       {/* Repasse de funções  */}
       <Header onOpenNewTransactionNewModal={handleOpenNewTransactionModal} />
@@ -37,6 +36,6 @@ export function App() {
       />
 
       <GLobalStyle />
-    </>
+    </TransactionsProvider>
   );
 }
