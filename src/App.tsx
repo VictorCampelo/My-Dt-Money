@@ -25,9 +25,9 @@ createServer({
   },
 });
 
-// Acessibilidade. 
+// Acessibilidade.
 // Explicita que o modal está por cima da div root
-Modal.setAppElement('#root')
+Modal.setAppElement("#root");
 
 export function App() {
   const [isNewTransactionModalOpen, setIsnewTransactionModalOpen] =
@@ -45,13 +45,13 @@ export function App() {
     <>
       {/* header é algo que vai ser repetido em todas as telas criadas */}
       {/* Repasse de funções  */}
-      <Header onOpenNewTransactionNewModal={handleOpenNewTransactionModal}/>
+      <Header onOpenNewTransactionNewModal={handleOpenNewTransactionModal} />
       <Dashboard />
-      
+
       {/* Modais são exibidos por cima de todo codigo */}
-      <NewTransactionModal 
-      isOpen={isNewTransactionModalOpen}
-      onRequestClose={handleCloseNewTransactionModal}
+      <NewTransactionModal
+        isOpen={isNewTransactionModalOpen}
+        onRequestClose={handleCloseNewTransactionModal}
       />
 
       <GLobalStyle />
