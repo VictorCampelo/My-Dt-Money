@@ -2,11 +2,9 @@ import { createContext, ReactNode, useEffect, useState } from "react";
 import { api } from "./services/api";
 
 interface TransactionContextData {
-    transactions: Transaction[];
-    createTransaction: (transaction: TransactionInput) => void;
+  transactions: Transaction[];
+  createTransaction: (transaction: TransactionInput) => Promise<void>;
 }
-
-export const TransactionsContext = createContext<TransactionContextData>({} as TransactionContextData);
 
 interface Transaction {
   id: number;
@@ -17,20 +15,17 @@ interface Transaction {
   createdAt: string;
 }
 
-// interface TransactionInput {
-//   title: string;
-//   amount: number;
-//   type: string;
-//   category: string;
-// }
-
-type TransactionInput = Omit<Transaction, 'id' | 'createdAt'>;
-
-// type TransactionInput = Pick<Transaction, 'title' | 'amount' | 'type' | 'category'>;
-
 interface TransactionProviderProps {
   children: ReactNode;
 }
+
+type TransactionInput = Omit<Transaction, "id" | "createdAt">;
+
+// type TransactionInput = Pick<Transaction, 'title' | 'amount' | 'type' | 'category'>;
+
+export const TransactionsContext = createContext<TransactionContextData>(
+  {} as TransactionContextData
+);
 
 export function TransactionsProvider({ children }: TransactionProviderProps) {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
@@ -41,12 +36,21 @@ export function TransactionsProvider({ children }: TransactionProviderProps) {
       .then((response) => setTransactions(response.data.transactions));
   }, []);
 
-  function createTransaction(transaction: TransactionInput) {
-    api.post("/transaction", transaction);
+  async function createTransaction(transactionInput: TransactionInput) {
+    if (transactionInput.type === "withdraw") {
+      transactionInput.amount = transactionInput.amount * -1;
+    }
+    const response = await api.post("/transaction", {
+      ...transactionInput,
+      createdAt: new Date(),
+    });
+    const { transaction } = response.data;
+
+    setTransactions([...transactions, transaction]);
   }
 
   return (
-    <TransactionsContext.Provider value={{transactions, createTransaction}}>
+    <TransactionsContext.Provider value={{ transactions, createTransaction }}>
       {children}
     </TransactionsContext.Provider>
   );
