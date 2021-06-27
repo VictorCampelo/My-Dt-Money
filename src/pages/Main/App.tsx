@@ -1,12 +1,12 @@
 import { useState } from "react";
 import Modal from "react-modal";
-import { Dashboard } from "./components/Dashboard";
-import { Header } from "./components/Header";
-import { NewCategoryModal } from "./components/NewCategoryModal";
-import { NewTransactionModal } from "./components/NewTransactionModal";
-import { CategoriesProvider } from "./hooks/useCategories";
-import { TransactionsProvider } from "./hooks/useTransactions";
-import { GLobalStyle } from "./styles/global";
+import { Dashboard } from "../Dashboard";
+import { Header } from "../../components/Organisms/Header";
+import { NewCategoryModal } from "../../components/Molecules/NewCategoryModal";
+import { NewTransactionModal } from "../../components/Molecules/NewTransactionModal";
+import { CategoriesProvider } from "../../hooks/useCategories";
+import { TransactionsProvider } from "../../hooks/useTransactions";
+import { GLobalStyle } from "../../styles/global";
 
 // Acessibilidade.
 // Explicita que o modal está por cima da div root
@@ -50,6 +50,7 @@ export function App() {
           isOpen={isNewTransactionModalOpen}
           onRequestClose={handleCloseNewTransactionModal}
         />
+
         <NewCategoryModal
           isOpen={isNewCategoryModalOpen}
           onRequestClose={handleCloseNewCategoryModal}

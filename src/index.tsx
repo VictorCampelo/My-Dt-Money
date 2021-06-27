@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { App } from "./App";
+import { App } from "./pages/Main/App";
 import { createServer, Model } from "miragejs";
 
 createServer({
@@ -26,6 +26,20 @@ createServer({
       const data = JSON.parse(request.requestBody);
 
       return schema.create("transaction", data);
+    });
+
+    this.patch("/transaction/:id", (schema: any, request: any) => {
+      let id = request.params.id;
+      const data = JSON.parse(request.requestBody);
+
+      try {
+        const transaction = schema.find("transaction", id);
+        if (transaction) {
+          return transaction.update(data);
+        }
+      } catch (error) {
+        return {};
+      }
     });
 
     this.post("/categories", (schema, request) => {

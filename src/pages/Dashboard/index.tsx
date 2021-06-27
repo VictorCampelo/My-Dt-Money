@@ -1,5 +1,5 @@
-import { Summary } from "../Summary";
-import { TransationsTable } from "../TransationsTable";
+import { Summary } from "../../components/Organisms/Summary";
+import { TransationsTable } from "../../components/Organisms/TransationsTable";
 import { Container } from "./style";
 
 export function Dashboard() {

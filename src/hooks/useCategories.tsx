@@ -7,11 +7,6 @@ import {
 } from "react";
 import { api } from "../services/api";
 
-interface CategoryContextData {
-  categories: Category[];
-  createCategory: (category: CategoryInput) => Promise<void>;
-}
-
 interface Category {
   id: number;
   title: string;
@@ -21,6 +16,12 @@ interface Category {
 
 interface CategoryProviderProps {
   children: ReactNode;
+}
+
+interface CategoryContextData {
+  categories: Category[];
+  createCategory: (category: CategoryInput) => Promise<void>;
+  fecthOneCategory: (id: number) => Promise<Category>;
 }
 
 type CategoryInput = Omit<Category, "id" | "createdAt">;
@@ -40,6 +41,13 @@ export function CategoriesProvider({ children }: CategoryProviderProps) {
       .then((response) => setCategories(response.data.categories));
   }, []);
 
+  // API FETCH
+  async function fecthOneCategory(id: number): Promise<Category> {
+    const response = await api.get(`/categories/${id}`);
+    const { category } = response.data;
+    return category;
+  }
+
   // API POST
   async function createCategory(categoryInput: CategoryInput) {
     const response = await api.post("/categories", {
@@ -53,7 +61,9 @@ export function CategoriesProvider({ children }: CategoryProviderProps) {
   }
 
   return (
-    <CategoriesContext.Provider value={{ categories, createCategory }}>
+    <CategoriesContext.Provider
+      value={{ categories, createCategory, fecthOneCategory }}
+    >
       {children}
     </CategoriesContext.Provider>
   );

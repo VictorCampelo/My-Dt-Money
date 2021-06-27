@@ -10,6 +10,7 @@ import { api } from "../services/api";
 interface TransactionContextData {
   transactions: Transaction[];
   createTransaction: (transaction: TransactionInput) => Promise<void>;
+  updateTransaction: (transaction: TransactionUpdate) => Promise<void>;
 }
 
 interface Category {
@@ -24,16 +25,24 @@ interface Transaction {
   title: string;
   amount: number;
   type: string;
-  categoryId: number;
+  categoryId?: number;
   category?: Category;
   createdAt: string;
+  updatedAt: string;
 }
 
 interface TransactionProviderProps {
   children: ReactNode;
 }
 
-type TransactionInput = Omit<Transaction, "id" | "category" | "createdAt">;
+type TransactionInput = Omit<
+  Transaction,
+  "id" | "category" | "createdAt" | "updatedAt"
+>;
+type TransactionUpdate = Omit<
+  Transaction,
+  "category" | "createdAt" | "updatedAt"
+>;
 
 export const TransactionsContext = createContext<TransactionContextData>(
   {} as TransactionContextData
@@ -64,23 +73,54 @@ export function TransactionsProvider({ children }: TransactionProviderProps) {
 
     console.log(transactionInput.categoryId);
 
-    const cat = await fecthOneCategory(transactionInput.categoryId);
+    let cat;
+
+    transactionInput.categoryId
+      ? (cat = await fecthOneCategory(transactionInput.categoryId))
+      : (cat = undefined);
 
     const response = await api.post("/transaction", {
       //"..." pega todos os atributos de um objeto
       ...transactionInput,
       category: cat,
       createdAt: new Date(),
+      updatedAt: new Date(),
     });
     const { transaction } = response.data;
-
-    console.log(transaction);
 
     setTransactions([...transactions, transaction]);
   }
 
+  // API Patch
+  async function updateTransaction(
+    transactionInput: TransactionUpdate
+  ): Promise<void> {
+    if (transactionInput.type === "withdraw") {
+      transactionInput.amount = transactionInput.amount * -1;
+    }
+
+    let cat;
+
+    transactionInput.categoryId
+      ? (cat = await fecthOneCategory(transactionInput.categoryId))
+      : (cat = undefined);
+
+    await api.patch(`/transaction/${transactionInput.id}`, {
+      //"..." pega todos os atributos de um objeto
+      ...transactionInput,
+      category: cat,
+      updateAt: new Date(),
+    });
+
+    await api
+      .get("transactions")
+      .then((response) => setTransactions(response.data.transactions));
+  }
+
   return (
-    <TransactionsContext.Provider value={{ transactions, createTransaction }}>
+    <TransactionsContext.Provider
+      value={{ transactions, createTransaction, updateTransaction }}
+    >
       {children}
     </TransactionsContext.Provider>
   );

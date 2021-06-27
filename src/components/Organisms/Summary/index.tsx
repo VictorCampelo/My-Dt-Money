@@ -1,8 +1,8 @@
-import incomeIgm from "../../assets/income.svg";
-import outcomeIgm from "../../assets/outcome.svg";
-import totalImg from "../../assets/total.svg";
+import incomeIgm from "../../../assets/income.svg";
+import outcomeIgm from "../../../assets/outcome.svg";
+import totalImg from "../../../assets/total.svg";
 import { Container } from "../Summary/style";
-import { useTransactions } from "../../hooks/useTransactions";
+import { useTransactions } from "../../../hooks/useTransactions";
 
 export function Summary() {
   const { transactions } = useTransactions();
