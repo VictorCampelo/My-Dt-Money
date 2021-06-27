@@ -48,32 +48,9 @@ export const Container = styled.form`
       filter: brightness(0.9);
     }
   }
-
-  .select-category {
-    width: 100%;
-    padding: 0 1.5rem;
-    height: 4rem;
-    border-radius: 0.25rem;
-
-    border: 1px solid #d7d7d7;
-    background: #e7e9ee;
-
-    font-size: 1rem;
-
-    color: #969cb3;
-
-    transition: filter 0.2s;
-  }
-
-  .option-input {
-    font-size: 1rem;
-    margin-top: 1.5rem;
-
-    transition: filter 0.2s;
-  }
 `;
 
-export const TransactionTypeContainer = styled.div`
+export const CategoryTypeContainer = styled.div`
   margin: 1rem 0;
   display: grid;
   grid-template-columns: 1fr 1fr;
