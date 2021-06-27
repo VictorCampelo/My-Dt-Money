@@ -2,7 +2,7 @@ import { useTransactions } from "../../hooks/useTransactions";
 import { Container } from "./style";
 
 export function TransationsTable() {
-const {transactions} = useTransactions();
+  const { transactions } = useTransactions();
   return (
     <Container>
       <table>
@@ -25,7 +25,12 @@ const {transactions} = useTransactions();
                   currency: "BRL",
                 }).format(transaction.amount)}
               </td>
-              <td>{transaction.category}</td>
+              {/* {transaction.category.map((cat) => {
+                return <td key={cat.id}>{cat.title}</td>;
+              })} */}
+              {transaction.category !== undefined && (
+                <td>{transaction.category.title}</td>
+              )}
               <td>
                 {new Intl.DateTimeFormat("pt-BR").format(
                   new Date(transaction.createdAt)
