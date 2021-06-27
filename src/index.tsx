@@ -13,6 +13,7 @@ createServer({
     this.namespace = "api";
 
     this.get("/categories/:id");
+    this.delete("/transaction/:id");
 
     this.get("/transactions", () => {
       return this.schema.all("transaction");

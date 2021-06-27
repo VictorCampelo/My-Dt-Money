@@ -30,10 +30,9 @@ export const Container = styled.form`
   }
 
   button[type="submit"] {
-    width: 100%;
+    width: 49%;
     padding: 0 1.5rem;
     height: 4rem;
-    background: var(--green);
     color: #fff;
     border-radius: 0.25rem;
     border: 0;
@@ -47,6 +46,21 @@ export const Container = styled.form`
     &:hover {
       filter: brightness(0.9);
     }
+  }
+
+  .update {
+    background: #6933ffc2;
+  }
+  .remove {
+    background: #e06e82;
+  }
+
+  .bottons-div {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
   }
 
   .select-category {

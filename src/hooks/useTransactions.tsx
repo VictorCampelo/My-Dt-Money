@@ -11,6 +11,7 @@ interface TransactionContextData {
   transactions: Transaction[];
   createTransaction: (transaction: TransactionInput) => Promise<void>;
   updateTransaction: (transaction: TransactionUpdate) => Promise<void>;
+  deleteTransaction: (transaction: TransactionDelete) => Promise<void>;
 }
 
 interface Category {
@@ -43,6 +44,7 @@ type TransactionUpdate = Omit<
   Transaction,
   "category" | "createdAt" | "updatedAt"
 >;
+type TransactionDelete = Pick<Transaction, "id">;
 
 export const TransactionsContext = createContext<TransactionContextData>(
   {} as TransactionContextData
@@ -117,9 +119,25 @@ export function TransactionsProvider({ children }: TransactionProviderProps) {
       .then((response) => setTransactions(response.data.transactions));
   }
 
+  // API Patch
+  async function deleteTransaction(
+    transactionInput: TransactionDelete
+  ): Promise<void> {
+    await api.delete(`/transaction/${transactionInput.id}`);
+
+    await api
+      .get("transactions")
+      .then((response) => setTransactions(response.data.transactions));
+  }
+
   return (
     <TransactionsContext.Provider
-      value={{ transactions, createTransaction, updateTransaction }}
+      value={{
+        transactions,
+        createTransaction,
+        updateTransaction,
+        deleteTransaction,
+      }}
     >
       {children}
     </TransactionsContext.Provider>
