@@ -1,7 +1,7 @@
 import { FormEvent, useState } from "react";
 import Modal from "react-modal";
-import closeImg from "../../assets/close.svg";
-import { useCategories } from "../../hooks/useCategories";
+import closeImg from "../../../assets/close.svg";
+import { useCategories } from "../../../hooks/useCategories";
 import { Container } from "../NewCategoryModal/style";
 
 interface NewCategoryModalProps {

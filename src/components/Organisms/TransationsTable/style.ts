@@ -3,6 +3,10 @@ import styled from "styled-components";
 export const Container = styled.div`
   margin-top: 4rem;
 
+  tbody > tr {
+    cursor: pointer;
+  }
+
   table {
     width: 100%;
     border-spacing: 0 0.5rem;
@@ -26,12 +30,12 @@ export const Container = styled.div`
         color: var(--text-title);
       }
 
-      &.deposit{
-          color: var(--green);
+      &.deposit {
+        color: var(--green);
       }
 
-      &.withdraw{
-          color: var(--red);
+      &.withdraw {
+        color: var(--red);
       }
     }
   }

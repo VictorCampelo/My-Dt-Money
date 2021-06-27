@@ -1,15 +1,11 @@
 import { FormEvent, useState } from "react";
 import Modal from "react-modal";
-import closeImg from "../../assets/close.svg";
-import incomeIgm from "../../assets/income.svg";
-import outcomeIgm from "../../assets/outcome.svg";
-import { useTransactions } from "../../hooks/useTransactions";
-import { useCategories } from "../../hooks/useCategories";
-import {
-  Container,
-  RadioBox,
-  TransactionTypeContainer,
-} from "../NewTransactionModal/style";
+import closeImg from "../../../assets/close.svg";
+import incomeIgm from "../../../assets/income.svg";
+import outcomeIgm from "../../../assets/outcome.svg";
+import { useTransactions } from "../../../hooks/useTransactions";
+import { useCategories } from "../../../hooks/useCategories";
+import { Container, RadioBox, TransactionTypeContainer } from "./style";
 
 interface NewTransactionModalProps {
   isOpen: boolean;
