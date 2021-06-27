@@ -36,7 +36,7 @@ export function UpdateTransactionModal({
   editTransaction,
 }: NewTransactionModalProps) {
   const { categories } = useCategories();
-  const { updateTransaction } = useTransactions();
+  const { updateTransaction, deleteTransaction } = useTransactions();
 
   const [id, setId] = useState(editTransaction.id);
 
@@ -70,6 +70,17 @@ export function UpdateTransactionModal({
     onRequestClose();
   }
 
+  // handle = ação do usuário
+  async function handleDeleteNewTransaction(event: FormEvent) {
+    // evita de recarregar a pagina quando o modal é fechado
+    event.preventDefault();
+
+    // atualiza, via post, no banco do miragejs, que pode ser mudado para um real posteriomente
+    await deleteTransaction({ id });
+
+    onRequestClose();
+  }
+
   return (
     <Modal
       isOpen={isOpen}
@@ -85,7 +96,7 @@ export function UpdateTransactionModal({
         <img src={closeImg} alt="Fechar modal" />
       </button>
 
-      <Container onSubmit={handleUpdateNewTransaction}>
+      <Container>
         <h2>Atualizar Transação</h2>
 
         <input
@@ -164,7 +175,22 @@ export function UpdateTransactionModal({
           onChange={(event) => setCategory(event.target.value)}
         /> */}
 
-        <button type="submit">Atualizar</button>
+        <div className="bottons-div">
+          <button
+            type="submit"
+            className="update"
+            onClick={handleUpdateNewTransaction}
+          >
+            Atualizar
+          </button>
+          <button
+            type="submit"
+            className="remove"
+            onClick={handleDeleteNewTransaction}
+          >
+            Deletar
+          </button>
+        </div>
       </Container>
     </Modal>
   );
