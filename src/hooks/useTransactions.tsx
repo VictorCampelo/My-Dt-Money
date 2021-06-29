@@ -9,6 +9,7 @@ import { api } from "../services/api";
 
 interface TransactionContextData {
   transactions: Transaction[];
+  transactionsPagination: Transaction[];
   createTransaction: (transaction: TransactionInput) => Promise<void>;
   updateTransaction: (transaction: TransactionUpdate) => Promise<void>;
   deleteTransaction: (transaction: TransactionDelete) => Promise<void>;
@@ -52,19 +53,43 @@ export const TransactionsContext = createContext<TransactionContextData>(
 
 export function TransactionsProvider({ children }: TransactionProviderProps) {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [transactionsPagination, setTransactionsPagination] = useState<
+    Transaction[]
+  >([]);
 
   // retorna todas as transactions por default
+  // offset começa de 0, limit começa de 1
   useEffect(() => {
     api
       .get("transactions")
       .then((response) => setTransactions(response.data.transactions));
+
+    api
+      .get("transactions1?offset=0&limit=1")
+      .then((response) =>
+        setTransactionsPagination(response.data.transactions)
+      );
   }, []);
+
+  // useEffect(() => {
+  //   api
+  //     .get("transactions")
+  //     .then((response) => setTransactions(response.data.transactions));
+  // }, []);
+
+  // API FETCH PAGINATION
+  // async function fecthPagination(offset: number, limit: number) {
+  //   const response = await api.get(
+  //     `transactions1?offset=${offset}&limit=${limit}`
+  //   );
+  //   const { transaction } = response.data;
+  //   setTransactionsPagination(transactions);
+  // }
 
   // API POST
   async function fecthOneCategory(id: number) {
     const response = await api.get(`/categories/${id}`);
     const { category } = response.data;
-    console.log(category);
     return category;
   }
   // API POST
@@ -134,6 +159,7 @@ export function TransactionsProvider({ children }: TransactionProviderProps) {
     <TransactionsContext.Provider
       value={{
         transactions,
+        transactionsPagination,
         createTransaction,
         updateTransaction,
         deleteTransaction,

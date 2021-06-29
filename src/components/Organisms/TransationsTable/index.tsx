@@ -29,7 +29,7 @@ const initalTransaction = {
 };
 
 export function TransationsTable() {
-  const { transactions } = useTransactions();
+  const { transactionsPagination } = useTransactions();
 
   const [isUpdateTransationModalOpen, setIsUpdateTransationModalOpen] =
     useState(false);
@@ -38,12 +38,8 @@ export function TransationsTable() {
     useState<EditTransaction>(initalTransaction);
 
   function handleOpenUpdateTransactionModal(data: any) {
-    // setTransactionObject(e.target.getAttribute("data-item"));
-    // console.log(e.target.getAttribute("data-item"));
     let index = data.currentTarget.getAttribute("data-item");
-    console.log(transactions[index]);
-    setTransactionObject(transactions[index]);
-    console.log(transactionObject);
+    setTransactionObject(transactionsPagination[index]);
     setIsUpdateTransationModalOpen(true);
   }
 
@@ -64,7 +60,7 @@ export function TransationsTable() {
         </thead>
 
         <tbody>
-          {transactions.map((transaction, index) => {
+          {transactionsPagination.map((transaction: any, index: any) => {
             return (
               <tr
                 key={transaction.id}
